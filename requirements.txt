@@ -1,0 +1,18 @@
+# --- Core (used in this build) ---
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+matplotlib>=3.7
+Flask>=2.3
+
+# --- Intended production stack (spec'd tech stack) ---
+# This project was built in a sandbox with no internet access, so it uses
+# HistGradientBoostingClassifier (sklearn) in place of XGBoost/LightGBM,
+# a from-scratch Kernel SHAP implementation in place of the `shap` package,
+# and Flask in place of Streamlit. All three swaps are drop-in compatible --
+# uncomment below and install if you have internet access:
+#
+# xgboost>=2.0
+# lightgbm>=4.0
+# shap>=0.44
+# streamlit>=1.30

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Model &amp; Drivers · Retention Control{% endblock %}
+{% block navoverview %}active{% endblock %}
+{% block content %}
+<h1>Model &amp; Global Drivers</h1>
+<div class="subtitle">{{ n_rows }} customers · {{ n_features }} features · selected model: {{ model_name }}</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="val">{{ metrics.roc_auc }}</div><div class="lbl">ROC-AUC</div></div>
+  <div class="kpi"><div class="val">{{ metrics.recall }}</div><div class="lbl">Recall (churn)</div></div>
+  <div class="kpi"><div class="val">{{ metrics.precision }}</div><div class="lbl">Precision (churn)</div></div>
+  <div class="kpi"><div class="val">{{ metrics.f1 }}</div><div class="lbl">F1 (churn)</div></div>
+</div>
+
+<div class="grid-2">
+  <div class="panel">
+    <h2>Global feature importance (mean |SHAP|)</h2>
+    <img class="chart" src="data:image/png;base64,{{ global_b64 }}">
+  </div>
+  <div class="panel">
+    <h2>Model comparison</h2>
+    <table>
+      <thead><tr><th>Model</th><th>ROC-AUC</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+      <tbody>
+        {% for m in comparison %}
+        <tr>
+          <td>{{ m.model }}</td>
+          <td>{{ m.roc_auc }}</td>
+          <td>{{ m.precision }}</td>
+          <td>{{ m.recall }}</td>
+          <td>{{ m.f1 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="footer-note">
+      Selected by 0.5×ROC-AUC + 0.5×Recall — in a retention setting, missing a
+      real churner (false negative) is usually costlier than one extra
+      retention offer sent to a customer who would've stayed, so recall is
+      weighted equally with overall discrimination.
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  Explainability: SHAP values are computed with a from-scratch Kernel SHAP
+  implementation (see src/explain.py) since this environment has no internet
+  access to install the <code>shap</code> package. It follows the same
+  algorithm (Lundberg &amp; Lee, 2017) — sampling feature coalitions,
+  weighting by the Shapley kernel, and solving a weighted least-squares
+  regression — and exposes the same interface, so it's a drop-in swap for
+  <code>shap.KernelExplainer</code> in an internet-connected environment.
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Customers · Retention Control{% endblock %}
+{% block navhome %}active{% endblock %}
+{% block content %}
+<h1>Customer Risk Board</h1>
+<div class="subtitle">{{ kpi.model_name }} · ROC-AUC {{ kpi.roc_auc }} · Recall {{ kpi.recall }} on held-out test set</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="val">{{ kpi.total_customers }}</div><div class="lbl">Customers scored</div></div>
+  <div class="kpi"><div class="val" style="color:var(--high)">{{ kpi.high_risk }}</div><div class="lbl">High risk (&ge;60%)</div></div>
+  <div class="kpi"><div class="val">{{ kpi.predicted_churners }}</div><div class="lbl">Predicted churners</div></div>
+  <div class="kpi"><div class="val">${{ "{:,.0f}".format(kpi.revenue_at_risk) }}</div><div class="lbl">Monthly revenue at risk</div></div>
+</div>
+
+<div class="panel">
+  <form class="filters" method="get">
+    <input type="text" name="q" placeholder="Search customer ID..." value="{{ q }}">
+    <div class="pill-group">
+      <a href="?risk=&sort={{ sort }}&q={{ q }}" class="{{ 'active' if risk_filter=='' }}">All</a>
+      <a href="?risk=High&sort={{ sort }}&q={{ q }}" class="{{ 'active' if risk_filter=='High' }}">High</a>
+      <a href="?risk=Medium&sort={{ sort }}&q={{ q }}" class="{{ 'active' if risk_filter=='Medium' }}">Medium</a>
+      <a href="?risk=Low&sort={{ sort }}&q={{ q }}" class="{{ 'active' if risk_filter=='Low' }}">Low</a>
+    </div>
+    <select name="sort" onchange="this.form.submit()">
+      <option value="risk_desc" {{ "selected" if sort=="risk_desc" }}>Sort: Risk high → low</option>
+      <option value="risk_asc" {{ "selected" if sort=="risk_asc" }}>Sort: Risk low → high</option>
+      <option value="charges_desc" {{ "selected" if sort=="charges_desc" }}>Sort: Monthly charges</option>
+    </select>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Customer</th><th>Risk</th><th>Churn Prob.</th><th>Contract</th>
+        <th>Tenure (mo)</th><th>Monthly $</th><th>Satisfaction</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in customers %}
+      <tr onclick="window.location='/customer/{{ c.customer_id }}'" style="cursor:pointer">
+        <td>{{ c.customer_id }}</td>
+        <td><span class="badge {{ c.risk_bucket }}">{{ c.risk_bucket }}</span></td>
+        <td>
+          <span class="bar-bg"><span class="bar-fill" style="width:{{ (c.churn_proba*100)|round(0) }}%; background:{{ 'var(--high)' if c.risk_bucket=='High' else ('var(--med)' if c.risk_bucket=='Medium' else 'var(--low)') }}"></span></span>
+          {{ "%.1f"|format(c.churn_proba*100) }}%
+        </td>
+        <td>{{ c.contract_type }}</td>
+        <td>{{ c.tenure_months }}</td>
+        <td>${{ "%.2f"|format(c.monthly_charges) }}</td>
+        <td>{{ c.satisfaction_score }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="footer-note">Showing up to 200 matching customers, sorted as selected. Click any row for the SHAP-based explanation and retention action plan.</div>
+{% endblock %}

@@ -1,0 +1,147 @@
+{
+  "CUST-105821": {
+    "churn_probability": 0.9902,
+    "action_plan": [
+      {
+        "driver": "satisfaction_score",
+        "customer_value": 2.1,
+        "shap_impact": 0.2093,
+        "recommended_action": "Route to a retention specialist for a personal outreach call within 48h",
+        "rationale": "Low self-reported satisfaction is one of the strongest leading indicators.",
+        "est_cost": "$$"
+      },
+      {
+        "driver": "tenure_months",
+        "customer_value": 1,
+        "shap_impact": 0.1545,
+        "recommended_action": "Enroll in a new-customer success program (onboarding call + 90-day check-in)",
+        "rationale": "Customers in their first 6 months are in the highest-risk 'trial' window.",
+        "est_cost": "$"
+      },
+      {
+        "driver": "contract_type",
+        "customer_value": "Month-to-month",
+        "shap_impact": 0.063,
+        "recommended_action": "Offer a discounted 1-year contract upgrade (e.g. 10% off for switching)",
+        "rationale": "Month-to-month customers churn at far higher rates than contracted customers.",
+        "est_cost": "$"
+      }
+    ]
+  },
+  "CUST-105294": {
+    "churn_probability": 0.9878,
+    "action_plan": [
+      {
+        "driver": "tenure_months",
+        "customer_value": 3,
+        "shap_impact": 0.1656,
+        "recommended_action": "Enroll in a new-customer success program (onboarding call + 90-day check-in)",
+        "rationale": "Customers in their first 6 months are in the highest-risk 'trial' window.",
+        "est_cost": "$"
+      },
+      {
+        "driver": "contract_type",
+        "customer_value": "Month-to-month",
+        "shap_impact": 0.0514,
+        "recommended_action": "Offer a discounted 1-year contract upgrade (e.g. 10% off for switching)",
+        "rationale": "Month-to-month customers churn at far higher rates than contracted customers.",
+        "est_cost": "$"
+      },
+      {
+        "driver": "late_payments_last_year",
+        "customer_value": 3,
+        "shap_impact": 0.0464,
+        "recommended_action": "Offer flexible billing date or autopay incentive to reduce payment friction",
+        "rationale": "Payment friction is often operational, not a satisfaction problem -- cheap to fix.",
+        "est_cost": "$"
+      }
+    ]
+  },
+  "CUST-100934": {
+    "churn_probability": 0.9873,
+    "action_plan": [
+      {
+        "driver": "satisfaction_score",
+        "customer_value": 3.1,
+        "shap_impact": 0.1097,
+        "recommended_action": "Route to a retention specialist for a personal outreach call within 48h",
+        "rationale": "Low self-reported satisfaction is one of the strongest leading indicators.",
+        "est_cost": "$$"
+      },
+      {
+        "driver": "late_payments_last_year",
+        "customer_value": 2,
+        "shap_impact": 0.0772,
+        "recommended_action": "Offer flexible billing date or autopay incentive to reduce payment friction",
+        "rationale": "Payment friction is often operational, not a satisfaction problem -- cheap to fix.",
+        "est_cost": "$"
+      },
+      {
+        "driver": "tenure_months",
+        "customer_value": 1,
+        "shap_impact": 0.0621,
+        "recommended_action": "Enroll in a new-customer success program (onboarding call + 90-day check-in)",
+        "rationale": "Customers in their first 6 months are in the highest-risk 'trial' window.",
+        "est_cost": "$"
+      }
+    ]
+  },
+  "CUST-102433": {
+    "churn_probability": 0.9856,
+    "action_plan": [
+      {
+        "driver": "late_payments_last_year",
+        "customer_value": 6,
+        "shap_impact": 0.1742,
+        "recommended_action": "Offer flexible billing date or autopay incentive to reduce payment friction",
+        "rationale": "Payment friction is often operational, not a satisfaction problem -- cheap to fix.",
+        "est_cost": "$"
+      },
+      {
+        "driver": "satisfaction_score",
+        "customer_value": 4.7,
+        "shap_impact": 0.0839,
+        "recommended_action": "Route to a retention specialist for a personal outreach call within 48h",
+        "rationale": "Low self-reported satisfaction is one of the strongest leading indicators.",
+        "est_cost": "$$"
+      },
+      {
+        "driver": "tech_support",
+        "customer_value": 0,
+        "shap_impact": 0.0407,
+        "recommended_action": "Offer a free 3-month trial of the Tech Support add-on",
+        "rationale": "Tech support subscribers churn noticeably less -- likely a switching-cost effect.",
+        "est_cost": "$"
+      }
+    ]
+  },
+  "CUST-102905": {
+    "churn_probability": 0.9851,
+    "action_plan": [
+      {
+        "driver": "satisfaction_score",
+        "customer_value": 4.2,
+        "shap_impact": 0.0882,
+        "recommended_action": "Route to a retention specialist for a personal outreach call within 48h",
+        "rationale": "Low self-reported satisfaction is one of the strongest leading indicators.",
+        "est_cost": "$$"
+      },
+      {
+        "driver": "contract_type",
+        "customer_value": "Month-to-month",
+        "shap_impact": 0.0817,
+        "recommended_action": "Offer a discounted 1-year contract upgrade (e.g. 10% off for switching)",
+        "rationale": "Month-to-month customers churn at far higher rates than contracted customers.",
+        "est_cost": "$"
+      },
+      {
+        "driver": "days_since_last_login",
+        "customer_value": 89,
+        "shap_impact": 0.0675,
+        "recommended_action": "Trigger a re-engagement email/push campaign highlighting unused features",
+        "rationale": "Disengaged usage is an early warning sign that often precedes cancellation.",
+        "est_cost": "$"
+      }
+    ]
+  }
+}

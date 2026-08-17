@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ customer_id }} · Retention Control{% endblock %}
+{% block content %}
+<a href="/" class="back">&larr; Back to customer list</a>
+<h1>{{ customer_id }}</h1>
+<div class="subtitle">{{ row.contract_type }} · {{ row.tenure_months }} months tenure · ${{ "%.2f"|format(row.monthly_charges) }}/mo</div>
+
+<div class="grid-2">
+  <div class="panel">
+    <h2>Predicted churn risk</h2>
+    <div class="prob-big" style="color:{{ 'var(--high)' if risk=='High' else ('var(--med)' if risk=='Medium' else 'var(--low)') }}">
+      {{ "%.1f"|format(proba*100) }}%
+    </div>
+    <div class="subtitle" style="margin-bottom:6px;">
+      <span class="badge {{ risk }}">{{ risk }} risk</span>
+      &nbsp;vs. population base rate {{ "%.1f"|format(base_value*100) }}%
+    </div>
+
+    <h2 style="margin-top:22px;">Top SHAP drivers</h2>
+    {% for d in drivers %}
+    <div class="driver-row">
+      <div>
+        <div class="name">{{ d.feature }}</div>
+        <div class="val">value: {{ d.value }}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="{{ 'tag-up' if d.shap > 0 else 'tag-down' }}">{{ "%+.4f"|format(d.shap) }}</div>
+        <div class="val">{{ d.direction }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="panel">
+    <h2>SHAP waterfall (top drivers → prediction)</h2>
+    <img class="chart" src="data:image/png;base64,{{ waterfall_b64 }}">
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Recommended retention actions</h2>
+  {% if plan|length == 0 %}
+    <div class="subtitle">No risk-increasing drivers matched the playbook for this customer — low priority for retention outreach.</div>
+  {% endif %}
+  {% for step in plan %}
+  <div class="action-card">
+    <div class="head">
+      <div class="title">{{ step.recommended_action }}</div>
+      <div class="cost">est. cost: {{ step.est_cost }}</div>
+    </div>
+    <div class="rationale">{{ step.rationale }}</div>
+    <div class="driver-tag">driven by: {{ step.driver }} = {{ step.customer_value }} (SHAP {{ "%+.4f"|format(step.shap_impact) }})</div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
